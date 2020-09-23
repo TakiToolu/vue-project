@@ -29,8 +29,10 @@ class Compile {
   compileElement (node) {
     //带v-model
     let attrs = node.attributes;//获取当前节点所有属性
+    // console.log(attrs)
     Array.from(attrs).forEach(attr => {
       //判断属性名是不是包含v-
+      // console.log(attr)
       let attrName = attr.name;
       if (this.isDirective(attrName)) {
         //取到对应值放到节点上去
@@ -51,7 +53,7 @@ class Compile {
     let reg = /\{\{([^}]+)\}\}/g;
     //  [] :任意 ^ :非 +：至少一个
     if (reg.test(expr)) {
-      console.log('text',node);
+      // console.log('text',node);
       CompileUtil['text'](node, this.vm, expr);
     }
   }
@@ -65,14 +67,14 @@ class Compile {
       if (this.isElementNode(node)) {
         //是元素节点，还需要继续深入的检查
         //这里需要编译元素
-        console.log('element', node);
+        // console.log('element', node);
         this.compileElement(node);
         this.compile(node);
       } else {
 
         //文本节点
         //这里需要编译文本
-
+        // console.log('text',node);
         this.compileText(node);
       }
     });
@@ -91,7 +93,7 @@ class Compile {
   CompileUtil = {
     getVal (vm, expr) {//通过data名 获取实例上对应的数据
       expr = expr.split('.');//[a,b,s,d,d]
-      console.log( vm.$data)
+      // console.log(vm.$data)
       return expr.reduce((prev, next) => {
         //vm.$data.a
         // console.log(prev[next])
@@ -99,35 +101,62 @@ class Compile {
       }, vm.$data);
     },
     getTextVal (vm,expr) {//获取编译文本后的结果,数据data名
-      return expr.replace(/\{\{(^}+)\}\}/g, (...arguments) => {
-        console.log(arguments)
-        return this.getVal(vm, argumentes[1]);
+      // console.log(arguments)
+      return expr.replace(/\{\{([^}]+)\}\}/g, (...arguments) => {
+        return this.getVal(vm, arguments[1]);
       })
     },
-    text (node, vm, expr) {//文本处理
+    text (node, vm, expr) {//文本处理编译时期
       let updateFn = this.updater['textUpdater'];
       //{{message}}=> hello.zxx
-      // let value = this.getTextVal(vm, expr);
-      let value = expr.replace(/\{\{([^}]+)\}\}/g, (...arguments) => {
-        // console.log(arguments[1])
-        //去掉{{ }}得到数据名
-        return this.getVal(vm, arguments[1]);
+      let value = this.getTextVal(vm, expr);
+
+      expr.replace(/\{\{([^}]+)\}\}/g, (...arguments) => {
+        //如果数据变化了，文本节点需要重新获取依赖的属性更新文本中的内容
+        console.log(expr)
+        new Watcher(vm,arguments[1],(newValue)=>{
+          //如果数据变化，文本节点需要
+          // 重新获取依赖属性更新文本中的内容
+          updateFn && updateFn(node,this.getTextVal(vm,expr))//this.getTextVal(vm, expr));
+        })
       })
       // console.log(value)
       updateFn && updateFn(node, value);
     },
+    setVal(vm,expr,newValue){
+      //[message.a]
+      expr=expr.split('.');
+      //收敛
+      return expr.reduce((prev,next,currentIndex)=>{
+        if(currentIndex===expr.length-1){
+          return prev[next]=newValue;
+        }
+        return prev[next];
+      },vm.$data);
+    },
     model (node, vm, expr) {//输入框处理
       let updateFn = this.updater['modelUpdater'];
-
+      new Watcher(vm,expr,(newValue)=>{
+        //当值变化后，会调用cb 将新的值传递过来
+        updateFn && updateFn(node,this.getVal(vm,expr))//this.getVal(vm,expr));
+      });
+      node.addEventListener('input',(e)=>{
+        let newValue=e.target.value;
+        this.setVal(vm,expr,newValue);
+      })
       updateFn && updateFn(node, this.getVal(vm, expr));
     },
-    updater: {
+    updater:{
       //文本更新
       textUpdater (node, value) {
+        console.log(node.nodeValue)
+        console.log(value)
+        // text (node, vm, expr)
         node.nodeValue = value;
       },
       //输入框更新
       modelUpdater (node, value) {
+        console.log(node)
         node.value = value;
       }
     }
