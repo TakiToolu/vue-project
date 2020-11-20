@@ -25,7 +25,10 @@ class Observer{
       enumerable:true,
       configurable:true,
       get () {//当取值时调用
+<<<<<<< HEAD
         console.log('Dep.target',Dep.target)
+=======
+>>>>>>> 2ef4086f8b7251d37207c1ff78cc6dcc5c080933
         Dep.target && dep.addSub(Dep.target)
         return value;
       },

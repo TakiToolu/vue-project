@@ -112,12 +112,19 @@ class Compile {
       let updateFn = this.updater['textUpdater'];
       //{{message}}=> hello.zxx
       let value = this.getTextVal(vm, expr);
+<<<<<<< HEAD
       expr.replace(/\{\{([^}]+)\}\}/g, (...arguments) => {
         //如果数据变化了，文本节点需要 重新获取依赖的属性更新文本中的内容
         //arg中的值时正则表达式的分组值，从左至右 由外到内 每个闭括号 为一个分组
         //第一个位置为表达式的值，最后一个为陪陪所有要求的表达式
         console.log(expr)
         console.log(arguments)
+=======
+
+      expr.replace(/\{\{([^}]+)\}\}/g, (...arguments) => {
+        //如果数据变化了，文本节点需要重新获取依赖的属性更新文本中的内容
+        console.log(expr)
+>>>>>>> 2ef4086f8b7251d37207c1ff78cc6dcc5c080933
         new Watcher(vm,arguments[1],(newValue)=>{
           //如果数据变化，文本节点需要
           // 重新获取依赖属性更新文本中的内容
