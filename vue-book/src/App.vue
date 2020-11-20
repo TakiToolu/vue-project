@@ -7,7 +7,7 @@
         </keep-Alive>
     </transition>
     <transition name="fadeIn">
-        <!--    正常的访问下走下面-->
+        <!--    正常的不需要缓存的访问下走下面-->
         <router-view v-if="!$route.meta.keepAlive"></router-view>
     </transition>
 

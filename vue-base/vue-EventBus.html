@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+    <!--template slot trsnsition-->
+        <input type="radio" v-model="radio" value="home">home
+        <input type="radio" v-model="radio" value="list">list
+<!--        一般缓存作用：为的是后面的路由做准备，如果缓存了就不会再走created mounted钩子函数-->
+<!--        <keep-alive>-->
+<!--            <component :is="radio"></component>-->
+<!--        </keep-alive>-->
+        <home>home</home>
+        <list>list</list>
+    </div>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script src=""></script>
+    <script>
+        let EventBus = new Vue;
+        let home={
+            data(){
+                return{color:'绿色',old:'green'}
+            },
+            template:"<div>home{{color}}<button @click='changeG'>变绿</button></div>",
+            created(){
+                EventBus.$on('changeRR',(val)=> { //页面以加载，监听list的changR事件
+                    this.color = val;
+                })
+            },
+            methods:{
+                changeG(){
+                   EventBus.$emit('changeGG',this.old);
+                }
+            }
+        }
+        let list= {
+            data(){
+                return{color:'红色',old:'red'}
+            },
+            template: "<div>list{{color}}<button @click='changeR'>变红</button></div>",
+            created(){
+                EventBus.$on('changeGG',(val)=> { //页面以加载，监听list的changR事件
+                    this.color = val;
+                })
+            },
+            methods:{
+                changeR(){
+                    EventBus.$emit('changeRR',this.old);
+                }
+            }
+        }
+        let vm = new Vue({
+            el:'#app',
+            data:{radio:'home' },
+            components:{
+                home,
+                list,
+            }
+        })
+    </script>
+
+</body>
+</html>

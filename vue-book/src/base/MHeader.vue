@@ -23,7 +23,6 @@
 <style scoped type="text/css" lang="less">
 
 .header{
-
   position: fixed;
   top: 0;
   left: 0;

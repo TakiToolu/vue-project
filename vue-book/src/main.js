@@ -9,9 +9,11 @@ import VueAwesomeSwiper from 'vue-awesome-swiper';//导入轮播图插件
 import 'swiper/swiper-bundle.css'
 import 'babel-polyfill'
 import  VueLazyload from 'vue-lazyload'//图片懒加载
+import 'bootstrap'
+import $ from 'jquery'
+// import 'porper.js'
 
 Vue.use(VueAwesomeSwiper);//注册轮播图组件为全局变量
-
 Vue.config.productionTip = false;
 Vue.use(VueLazyload,{//使图片懒加载功能为全局变量
   preload:1.3,
@@ -24,7 +26,7 @@ router.beforeEach(function (to,from,next) {
   // console.log(to);
   document.title=to.meta.title;
   if(to.path==='list'){
-    //next(pah{:'/add})
+    //next(path{:'/add})
     next();
   }
   next();

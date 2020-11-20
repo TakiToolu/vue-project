@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .mask{
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            background: rgba(0,0,0,.35);
+            top:0px;
+            left:0px;
+           }
+        .dialog{
+            width: 400px;
+            height: 150px;
+            background: lightblue;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <button @click="guanggao">弹</button>
+    <modal v-show="fashow" @click="fn"></modal>
+</div>
+<template id="dialog">
+    <div class="mask">
+        <div class="dialog">
+            <button>关闭</button>
+        </div>
+    </div>
+
+</template>
+<script src="node_modules/vue/dist/vue.js"></script>
+<script>
+    // 未完成
+
+    let bus=new Vue();
+
+    let modal={
+      template:'#dialog',
+      props:['show'],
+      methods: {
+        fn:()=>{
+          console.log('chufa')
+          bus.$emit('close');
+        }
+      }
+    }
+    let vm=new Vue({
+      el:'#app',
+      mounted(){
+        bus.$on('close',guanAd)
+      },
+      data:{
+        fashow:false,
+      },
+      components:{
+        modal,
+      },
+      methods:{
+        guanggao(){
+            this.fashow=true;
+        },
+        guanAd(){
+          this.fashow=false;
+        }
+      }
+    })
+</script>
+</body>
+</html>

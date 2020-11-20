@@ -4,7 +4,7 @@
         <div class="content">
           <loading v-if="loading"></loading>
           <template v-else>
-            <swiper class="sw" :swiperSliders="slider"></swiper>
+            <Swiper class="sw" :swiperSliders="slider"></Swiper>
             <div class="container">
               <h3>热门图书</h3>
               <ul >
@@ -20,13 +20,13 @@
               </ul>
             </div>
           </template>
-
       </div>
-
     </div>
 </template>
+<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
 
 <script>
+
   import Swiper from '../base/Swiper.vue';
   import MHeader from '@/base/MHeader.vue';
   import {getAll} from '../api';
@@ -53,6 +53,7 @@
           //let {data}=await getSliders();
           // 被axios.interceptors.response.use给拦截过滤去掉{}；简化后省去中间变量data
 
+
           // this.slider = await getAll();
           let [sliders,hotbooks]= await getAll();
           this.slider=sliders;
@@ -73,37 +74,93 @@
 </script>
 
 <style scoped lang="less">
-
   .sw{
-      height: 33%;
+      width:100%;
+      height: calc(65vw);
       overflow-y: hidden;
   }
-.container{
+.container {
   width: 90%;
-  margin:5% auto;
-  h3{
-    color:#2a2a2a;
-    margin-bottom:5px;
+  margin: 5% auto;
+
+  h3 {
+    color: #2a2a2a;
+    margin-bottom: 5px;
   }
-  ul{
+
+  ul {
     display: flex;
     flex-wrap: wrap; /*默认不换行*/
     margin-bottom: 10px;
-    justify-content:space-around;
-    li{
 
-        width:30%;
-        height: 180px;
-        img{
-          width: 90%;
-          height: 70%;
-        }
-      .hshow{
-        display:none;
+    justify-content: space-around;
+    float:left;
+    li {
+      width:100%;
+      height: calc(130vw);
+      padding: 1%;
+      img {
+        width: 100%;
+        height: 70%;
       }
 
+      .hshow {
+        display: none;
+      }
+    }
+
+    @media screen and (min-width: 320px) {
+      /*大于等于768*/
+      li {
+        width: 45%;
+        height: calc(65vw);
+      }
+
+      /*height: 180px;*/
+      /*  img{*/
+      /*    width: 90%;*/
+      /*    height: 70%;*/
+      /*  }*/
+      /*  .hshow{*/
+      /*    display:none;*/
+      /*  }*/
+      /*}*/
+    }
+    @media screen and (min-width: 414px) {
+      /*大于等于992*/
+      li {
+        width: 30%;
+        height: calc(45vw);
+      }
+
+      /*height: 180px;*/
+      /*  img{*/
+      /*    width: 90%;*/
+      /*    height: 70%;*/
+      /*  }*/
+      /*  .hshow{*/
+      /*    display:none;*/
+      /*  }*/
+      /*}*/
+    }
+    @media screen and (min-width: 1024px) {
+      /*大于等于1200*/
+      li {
+        width: 25%;
+        height: calc(30vw);
+      }
+
+      /*height: 180px;*/
+      /*    img{*/
+      /*      width: 90%;*/
+      /*      height: 70%;*/
+      /*    }*/
+      /*    .hshow{*/
+      /*      display:none;*/
+      /*    }*/
+      /*  }*/
+      /*}*/
     }
   }
 }
-
 </style>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .router-link-active{color:red}
+    </style>
+</head>
+<body>
+    <div id="app">
+        <router-link :to="{path:'/home'}" tag="button">首页</router-link>
+        <router-link :to="{path:'/list'}" tag="button">LIST</router-link>
+        <router-view></router-view>
+    </div>
+<script src="node_modules/vue/dist/vue.js"></script>
+<script src="node_modules/vue-router/dist/vue-router.js"></script>
+<script>
+    let home={
+        template:'<div>home<button @click="toList">去列表</button>></div>>',
+        methods:{
+            toList(){this.$router.push('/list')} //强制跳转模式
+            // toList(){this.$router.replace('/list')} //路由替换：将当前的历史替换掉
+        }
+    };
+    let list={
+        template:'<div>list<button @click="back">返回</button></div>',
+        methods: {
+            back(){this.$router.go(-1)} //返回某一级
+        }
+    };
+    let routes=[
+        {path:'/home',component:home},
+        {path:'/list',component:list},
+    ];
+    let router=new VueRouter({//引入vue-router 自带VueRouter类
+        //mode:'history',
+        routes
+
+    });
+    let vm = new Vue({
+        el:'#app',
+        router
+    })
+</script>
+</body>

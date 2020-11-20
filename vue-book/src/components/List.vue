@@ -13,13 +13,13 @@
                 <p> 单价：{{book.bookPrice}}</p>
                 <div class="btn-list">
                   <button @click.stop="delBook(book.bookId)" class="">删除{{book.bookId}}</button>
-                  <button @click.stop="addShops(book.bookId)" class="">添加购物车</button>
+                  <button @click.stop="addShops(book.bookId)" class="">添加收藏</button>
                 </div>
               </div>
             </router-link>
 
           </ul>
-          <button @click="getData" class="more">加载更多</button>
+<!--          <button @click="getData" class="more">加载更多</button>-->
         </div>
       </keep-alive>
     </div>
@@ -58,7 +58,7 @@
           this.getData();
         },
         loadMore(){
-          clearTimeout(this.timer);
+          clearTimeout(this.timer);//防抖
           //节流,进来时，触发scroll事件 可能触发n次 先进来开一个定时器 下次触发时将上一次的定时器清除掉
           this.timer=setTimeout(()=>{
             //  卷曲的高度    当前课件区域   总高
@@ -87,10 +87,10 @@
                   scroll.style.top=distance+top+'px';
                 }else{
                   distance=100;
-                  scroll.style.top=top+100+'px';
+                  scroll.style.top=top+distance+'px';
                 }
               }else{
-                //不在考虑范围内，移除事件
+                //distance《0 向下拉看缓存， 不在考虑范围内，移除事件
                 scroll.removeEventListener('touchmove',move)
                 scroll.removeEventListener('touchend',end)
               }
@@ -125,7 +125,7 @@
         async getData(){
 
           this.isLoading=true;
-          if(this.hasMore){//有更多的时候获取数据
+          if(this.hasMore&&this.isLoading){//有更多的时候获取数据
             let {hasMore,books}=await pagination(this.offset);
             this.books=[...this.books,...books];//获取的书放到books属性上
             this.hasMore=hasMore;
@@ -136,7 +136,7 @@
           // this.books=await getBooks();
         },
         async delBook(id){
-          await removeBook(id);
+          // await removeBook(id);
           this.books=this.books.filter(item=>item.bookId!==id);
           //删除后不会引起页面刷新，数据重新加载，所以需要手动将当前页面处理一下，二不是触发刷新，为了减少请求数据
         },

@@ -20,6 +20,7 @@ function write(data ,cb){ //写入文件
 
 
 http.createServer((request,res)=>{
+
   // this.use(function (req,res,next) {
     //以下配置 为了开发时跨域 上线中的代码需删除
     //设置允许跨域的域名，*代表允许任意域名跨域
@@ -37,6 +38,7 @@ http.createServer((request,res)=>{
   // })
 
     let {pathname,query}=url.parse(request.url,true);//true 把query转换成对象
+    console.log(pathname,query)
     let pageSize=5;//每页写5个
     if(pathname==='/slider'){
 
@@ -72,7 +74,7 @@ http.createServer((request,res)=>{
         if(chunk){
           shopBooks=chunk.toString()//.split(" ");
         }
-        console.log(shopBooks)
+        // console.log(shopBooks)
         read(function(data){
           let books=data.filter(function(ele){
             // console.log(ele)
@@ -165,7 +167,7 @@ http.createServer((request,res)=>{
         return;
     }
 
-    //读取一个路劲
+    //读取一个路径
   fs.stat('.'+pathname,function(err,stats){
     if(err){
       res.statusCode=404;
@@ -174,7 +176,7 @@ http.createServer((request,res)=>{
       fs.createReadStream('index.html')
         .pipe(res);
     }else{
-      if(stats.isDirectory()){
+      if(stats.isDirectory()){//判断stats是一个目录
         let p=require('path').join('.'+pathname,'./index.html');
         fs.createReadStream(p).pipe(res);
       }else{

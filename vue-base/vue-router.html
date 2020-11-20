@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .router-link-active{color:red}
+    </style>
+</head>
+<body>
+<div id="app">
+<!--    router-vue 时注册在Vue上的全
+局组件，可以直接使用。//声明式（事件触发）-->
+    <router-link to="home" tag="button">首页</router-link>
+    <router-link to="list" tag="button">列表项</router-link>
+<!--    动态绑定路径-->
+<!--    <router-link ：to="变量" tag="button">列表项</router-link>-->
+    <router-view></router-view>
+</div>
+<script src="node_modules/vue/dist/vue.js"></script>
+<script src="node_modules/vue-router/dist/vue-router.js"></script>
+<!--必须放vue后面-->
+<script>
+    let home={template:'<div>home</div>>'};
+    let list={template:'<div>list</div>>'};
+    let routes=[ //路由的映射表，配置路径和组件的关系
+        {path:'/home',component:home}, //配置的关系就是页面级组件
+        {path:'/list',component:list},//路径必须加/
+    ];
+    let router=new VueRouter({//引入vue-router 自带VueRouter类
+        //mode:'history',//默认是开发时的hash模式，修改后为上线使用的h5模式
+        routes:routes //只有routes可以简写成routes
+
+    });
+    let vm = new Vue({
+        el:'#app',
+        router
+    })
+</script>
+
+
+</body>
+</html>

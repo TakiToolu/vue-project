@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <router-link to="/home">主页</router-link>
+    <router-link to="/detail">详情</router-link>
+    <router-view></router-view>
+</div>
+<template id="detail">
+    <div>详情
+        <router-link to="/detail/profile">个人中心</router-link>
+        <router-link to="/detail/about">关于我</router-link>
+        <router-view></router-view>
+    </div>
+</template>
+<!--mode="out-in" 先出后进的动画模式-->
+<transition enter-active-class="animated fadeIn"
+            leave-active-class="animated fadeOut">
+    <!--要缓存谁，就把水包起来-->
+    <keep-alive>
+        <!--为达到两个标签无缝切换，需要使用绝对定位-->
+        <router-view style="position:absolute;top:0;left:0;width:100%"></router-view>
+    </keep-alive>
+</transition>>
+
+
+<script src="node_modules/vue/dist/vue.js"></script>
+<script src="node_modules/vue-router/dist/vue-router.js"></script>
+<script>
+    let home={template:'<div>主页</div>',
+        // created(){
+        //     alert(1);
+        // }
+        };
+     let detail={template:'#detail', //单引号与变量间不能有空格
+     };
+    let profile={template:'<div>profile</div>'};
+    let about={template:'<div>about</div>'};
+    let routes=[
+        { //路由的嵌套
+            path:'/detail',
+            component:detail,
+            children:[ //children中的路径永远不带/，如果带/ 表示时一级路由
+                {path:'profile',component:profile},
+                {path:'about',component:about } ]
+        },
+        {path: '/home', component:home, }
+    ];
+    let router =new VueRouter({
+        routes,
+    });
+    let vm = new Vue({
+        el:'#app',
+        router
+    })
+
+</script>
+</body>
+</html>
