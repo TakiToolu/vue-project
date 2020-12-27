@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+    <style>
+        img{
+            /*width:70px;*/
+            height:100px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="container">
+        <div class="row">
+            <caption class="h2 text-warning text-center">购物车实例</caption>
+            <table class="table table-hover table-bordered">
+                <tr>
+                    <th>全选
+                        <input type="checkbox" v-model="checkAll" >
+                    </th>
+                    <br>
+                    <td>商品</td>
+                    <td>单价</td>
+                    <td>数量</td>
+                    <td>小计</td>
+                    <td>操作</td>
+                </tr>
+                <tr  v-for="(product,index) in products" @click="changeone(index)">
+                    <td ><input type="checkbox" v-model="product.isSelected"></td>
+                    <td>
+                        <img :src="product.bookCover" :title="product.bookName"></img>
+                        <p>{{product.name}}</p>
+                    </td>
+                    <td >{{Number(product.bookPrice)  | toFixed(2)}}</td>
+                    <td ><input type="number" v-model.number.lazy="product.bookCount" @click.stop=""></td>
+<!--                  toFixed() 显示小数个数  过滤器 :只改变显示效果  管道符| -->
+                    <td>{{product.bookCount*product.bookPrice | toFixed(2)}}</td>
+                    <td >
+                        <button class="btn btn-danger" @click="remove(product)">删除</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6">总价格：{{sum | toFixed(2)}}</td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script src="../node_modules/axios/dist/axios.js"></script>
+<script>
+  let vm=new Vue({
+    el:'#app',
+    created(){
+      this.getData();
+      // this.changeone();
+      // console.log(this.products);
+    },
+    data:{
+      products:[],
+      // checkAll:false,
+    },
+    filters:{//自定义过滤方式，页面上通过管道符修饰实现过滤
+        toFixed(input,param1){
+          return '￥'+input.toFixed(param1);
+        }
+  },
+    computed:{
+        checkAll:{
+          get(){
+            // return this.products.reduce((pre,next)=>{
+            //   return pre&&next.isSelected;
+            // },true)
+            return this.products.every(item=>item.isSelected);
+          },
+          set(val){
+            this.products.forEach((item)=>{
+              item.isSelected=val;
+            })
+          }
+        },
+      sum:{
+        get(){
+          return this.products.reduce((pre,next)=>{
+            if(next.isSelected){
+              return pre+next.bookPrice*next.bookCount;
+            }
+            return pre;
+          },0)
+        }
+      },
+      // sum(){ //计算属性携程函数，默认返回的是get
+      //     return this.products.reduce((pre,next)=>{
+      //       if(next.isSelected){
+      //         return pre+next.bookPrice*next.bookCount;
+      //       }
+      //       return pre;
+      //     },0)
+      // }
+    },
+    methods:{
+      getData(){
+        axios.get('./carts.json').then((res)=>{
+          // console.log(res.data);
+          this.products=res.data;
+          // this.changeone();
+          console.log(this.products);
+        },function(err){
+          console.log(err);
+        })
+      },
+      remove(product){
+          this.products=this.products.filter((item)=>{
+            return item!=product;
+          })
+      },
+      changeone(index){
+        this.products[index].isSelected=!this.products[index].isSelected;
+      },
+
+    }
+  })
+</script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        {{msg}}
+        <input id='input' type="text" v-model="msg">
+        <div v-text="msg"></div>
+        <div v-html="p"></div>
+        <div>{{a.sh}}}</div>
+        <div>
+            <ul class="fruits">
+                <li class="list" v-for='(fruit,index) in fruits'>
+                    {{index+1}}.{{fruit.name}}
+                    <ul>
+                        <li v-for="(col,inindex) in fruit.color">{{index+1}}.{{inindex+1}}{{col}}</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <input type="text" v-model="val" @keyup.ctrl.enter="add">
+        <ul>
+            <li v-for="item in arr">{{item}}
+                <button @click="remove(item)">删除</button>
+            </li>
+        </ul>
+    </div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm =new Vue({
+      el:'#app',
+      methods:{
+        add(e){
+          // if(e.keyCode === 13){
+            this.arr.unshift(this.val);
+            this.val='';
+          // }
+        },
+        remove(item){
+          this.arr=this.arr.filter((i)=>i!==item)
+        }
+      },
+      data:{
+        msg:'zxx',
+        p:'<p>这里是段落</p>',//将p中内容作为子节点挂载到dom上
+        a:{sh:'aa'},
+        fruits:[
+          {name:'香蕉' ,color:['green','yellow']},
+          {name:'苹果' ,color:['green','yellow','red']},
+          {name:'西瓜' ,color:['green','yellow','lemon','red']},
+        ],
+        val:'',
+        arr:['jin','jiks','llll','hie']
+      },
+
+    })
+    //数据双向绑定原生实现 ES5 defineProperty()
+   /* let obj={};
+    let temp={};
+    let input=documnet.getElementById('input')
+    obj.defineProperty(obj,'name',{
+      get(){
+        return temp.name;
+      },
+      set(val){
+        temp['name']=val;
+        input.value=val;
+      }
+    })
+
+    obj.value=obj.name;//页面一家在会调用get
+    input.addEventListener('input',function(){
+      obj.name=this.value;
+    })
+*/
+
+
+</script>
+</body>
+</html>

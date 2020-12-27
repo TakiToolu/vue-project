@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+    <style>
+        div>div{
+            width: 100px;
+            height: 100px;
+            background-color: cadetblue;
+        }
+        .v-enter{opacity:0;}
+        .v-enter-active{transition:1s linear }
+        .v-leave-active{opacity:0;transition:1s linear}
+        .jw-enter{opacity:0;}
+        .jw-enter-active{transition:0.6s linear }
+        .jw-leave{opacity:1}
+        .jw-leave-active{opacity:0;transition:0.5s linear}
+    </style>
+</head>
+<body>
+<div id="app">
+    <button @click="flag=!flag">点我</button>
+    <transition name="jw">
+        <div v-show="flag">
+            呵呵哒
+        </div>
+    </transition>
+    <transition>
+        <div v-show="flag">
+            呵呵哒
+        </div>
+    </transition>
+</div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm=new Vue({
+      el:'#app',
+      data:{
+        flag:true,
+      },
+      methods:{}
+    })
+</script>
+</body>
+</html>

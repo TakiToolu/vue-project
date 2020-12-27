@@ -1,0 +1,38 @@
+[
+  {
+    "isSelected": false,
+    "bookCover": "http://img.alicdn.com/bao/uploaded/i7/TB1K0.9AKuSBuNjSszi7ZLq8pXa_021930.jpg",
+    "bookName": "古诗词",
+    "booeInfo": "藏在地图里",
+    "bookPrice": "68.124345",
+    "bookId": "3",
+    "bookCount": 1
+  },
+  {
+    "isSelected": false,
+    "bookCover": "http://img.alicdn.com/bao/uploaded/i3/1599634638/O1CN01naGDVc1k8FYPL4HUs_!!2-item_pic.png",
+    "bookName": "刻意练习",
+    "booeInfo": "从新手到大师",
+    "bookPrice": "77.88888",
+    "bookId": "4",
+    "bookCount": 1
+  },
+  {
+    "isSelected": false,
+    "bookCover": "http://img.alicdn.com/bao/uploaded/i4/TB1NfE8vvuSBuNkHFqDMfBfhVXa_112356.jpg",
+    "bookName": "童年",
+    "booeInfo": "童年的info",
+    "bookPrice": "18.5",
+    "bookId": "5",
+    "bookCount": 1
+  },
+  {
+    "isSelected": false,
+    "bookCover": "http://img.alicdn.com/bao/uploaded/i4/102/O1CN01CEIq6W1Ccl0v0ujfM_!!102-0-lubanu.jpg",
+    "bookName": "小王子",
+    "booeInfo": "小王子的info",
+    "bookPrice": "154.989898",
+    "bookId": "6",
+    "bookCount": 1
+  }
+]

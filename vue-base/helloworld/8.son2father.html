@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    父亲给了你{{m}}
+    <son @more="givemore" :money="m" ></son>
+</div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+  let son = {
+    props:['money'],
+    template:'<div>我收到老爸{{money}}<button @click= "getmore">多给一点</button></div>',
+    methods:{
+      getmore(){ this.$emit('more',1000);//触发父亲定义的事件，并 将参数传递给父组件的
+      }
+    }
+  }
+
+
+  let vm = new Vue({
+    el:'#app',
+    data:{m:500 },
+    methods:{
+      givemore(val){ this.m = val; }
+    },
+    components:{ son }
+  })
+</script>
+</body>
+</html>

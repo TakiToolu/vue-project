@@ -25,8 +25,11 @@
     let home={template:'<div>home</div>>'};
     let list={template:'<div>list</div>>'};
     let routes=[ //路由的映射表，配置路径和组件的关系
+        {path:'',component:home},//默认展示的路由
         {path:'/home',component:home}, //配置的关系就是页面级组件
         {path:'/list',component:list},//路径必须加/
+        {path:'*',component:home},//这个地方路径不会变，知识切换了组件
+        {path:'*',redirect:home},//路径变组件也切换
     ];
     let router=new VueRouter({//引入vue-router 自带VueRouter类
         //mode:'history',//默认是开发时的hash模式，修改后为上线使用的h5模式

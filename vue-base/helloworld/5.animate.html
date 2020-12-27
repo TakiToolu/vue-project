@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../node_modules/animate.css/animate.min.css">
+    <style>
+        div>div{
+            width: 100px;
+            height: 100px;
+            background-color: cadetblue;
+        }
+        .ko{
+            width: 100px;
+            height: 100px;
+            background-color:#42b983;
+        }
+
+    </style>
+</head>
+<body>
+<div id="app">
+    <button @click="flag=!flag">点我</button>
+    <transition enter-active-class="animated bounceInUp" leave-active-class="animated bounceOutDown">
+        <div v-show="flag">
+            呵呵哒
+        </div>
+    </transition>
+    <input type="text" v-model="query">
+    <transition-group>
+        <div class="ko" v-for="(a,index) in newArr" :key="index">
+            {{a}}
+        </div>
+    </transition-group>
+</div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm=new Vue({
+      el:'#app',
+      data:{
+        flag:true,
+        query:'',
+        arr:['k','kk','lo','ugu','cdt']
+      },
+      computed:{
+        newArr(){
+          return this.arr.filter(item=>item==this.query);
+        }
+      },
+      methods:{}
+    })
+</script>
+</body>
+</html>
